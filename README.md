@@ -1,5 +1,5 @@
-# LTAT.01.005-LANGUAGE-AND-IMAGE-PROCESSING-Spring-2019-
-Project files for LTAT.01.005 LANGUAGE AND IMAGE PROCESSING [Spring 2019]
+# LTAT.01.005 LANGUAGE AND IMAGE PROCESSING [Spring 2019]
+Project files for Language and Image processing course.
 
 ## Goal
 
