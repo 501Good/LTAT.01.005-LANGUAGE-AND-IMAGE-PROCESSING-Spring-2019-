@@ -33,17 +33,14 @@ def caption_image_beam_search(encoder, decoder, image_path, word_map, beam_size=
     if len(img.shape) == 2:
         img = img[:, :, np.newaxis]
         img = np.concatenate([img, img, img], axis=2)
-    img = imresize(img, (256, 256))
-    img = img.transpose(2, 0, 1)
-    img = img / 255.
-    img = torch.FloatTensor(img).to(device)
     normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
                                      std=[0.229, 0.224, 0.225])
-    transform = transforms.Compose([normalize])
-    image = transform(img)  # (3, 256, 256)
+    resize = transforms.Resize((64,64))
+    trans = transforms.Compose([transforms.ToPILImage(), resize, transforms.ToTensor(), normalize])
+    image = trans(img).to(device)  # (3, 64, 64)
 
     # Encode
-    image = image.unsqueeze(0)  # (1, 3, 256, 256)
+    image = image.unsqueeze(0)  # (1, 3, 64, 64)
     encoder_out = encoder(image)  # (1, enc_image_size, enc_image_size, encoder_dim)
     enc_image_size = encoder_out.size(1)
     encoder_dim = encoder_out.size(3)
@@ -106,6 +103,10 @@ def caption_image_beam_search(encoder, decoder, image_path, word_map, beam_size=
         # Convert unrolled indices to actual indices of scores
         prev_word_inds = top_k_words / vocab_size  # (s)
         next_word_inds = top_k_words % vocab_size  # (s)
+
+        # If a sequence is not ending with <end>, put it there
+        if step == 49 and word_map['<end>'] not in next_word_inds:
+            next_word_inds[k-1] = word_map['<end>']
 
         # Add new words to sequences, alphas
         seqs = torch.cat([seqs[prev_word_inds], next_word_inds.unsqueeze(1)], dim=1)  # (s, step+1)

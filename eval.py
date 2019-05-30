@@ -11,7 +11,7 @@ from tqdm import tqdm
 # Parameters
 data_folder = './torch_images'  # folder with data files saved by create_input_files.py
 data_name = './data/test.json'  # base name shared by data files
-checkpoint = 'C:/Users/milin/Documents/a-PyTorch-Tutorial-to-Image-Captioning/BEST_checkpoint_super_model.pth.tar'  # model checkpoint
+checkpoint = './a-PyTorch-Tutorial-to-Image-Captioning/BEST_checkpoint_super_model.pth.tar'  # model checkpoint
 word_map_file = './data/vocab.json'  # word map, ensure it's the same the data was encoded with and the model was trained with
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")  # sets device for model and PyTorch tensors
 cudnn.benchmark = True  # set to true only if inputs to model are fixed size; otherwise lot of computational overhead
@@ -128,6 +128,10 @@ def evaluate(beam_size):
             prev_word_inds = top_k_words / vocab_size  # (s)
             next_word_inds = top_k_words % vocab_size  # (s)
 
+            # If a sequence is not ending with <end>, put it there
+            if step == 49 and word_map['<end>'] not in next_word_inds:
+                next_word_inds[k-1] = word_map['<end>']
+
             # Add new words to sequences
             seqs = torch.cat([seqs[prev_word_inds], next_word_inds.unsqueeze(1)], dim=1)  # (s, step+1)
 
@@ -165,7 +169,7 @@ def evaluate(beam_size):
         img_caps = allcaps[0].tolist()
         img_captions = list(
             map(lambda c: [w for w in c if w not in {word_map['<start>'], word_map['<end>'], word_map['<pad>']}],
-                img_caps))  # remove <start> and pads
+                [img_caps]))  # remove <start> and pads
         references.append(img_captions)
 
         # Hypotheses
