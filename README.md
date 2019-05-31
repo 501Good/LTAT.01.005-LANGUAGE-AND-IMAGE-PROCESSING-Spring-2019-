@@ -1,6 +1,8 @@
 # LTAT.01.005 LANGUAGE AND IMAGE PROCESSING [Spring 2019]
 Project files for Language and Image processing course.
 
+[**Report file**](https://github.com/501Good/LTAT.01.005-LANGUAGE-AND-IMAGE-PROCESSING-Spring-2019-/blob/master/Project%20report.pdf)
+
 ## Goal
 
 Generate names of Amazon products.
@@ -65,6 +67,9 @@ The evaluation metrics are:
 - Accuracy - 62.901
 - Bleu - 12.88
 
+![Accuracy](/img/accuracy.png?raw=true "Training Accuracy")
+
+![BLEU](/img/bleu.png?raw=true "Training BLEU-score")
 
 ## Output example
 
