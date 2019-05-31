@@ -1,6 +1,8 @@
 # LTAT.01.005 LANGUAGE AND IMAGE PROCESSING [Spring 2019]
 Project files for Language and Image processing course.
 
+**Students:** Kirill Milintsevich, Kateryna Peikova
+
 [**Report file**](https://github.com/501Good/LTAT.01.005-LANGUAGE-AND-IMAGE-PROCESSING-Spring-2019-/blob/master/Project%20report.pdf)
 
 ## Goal
